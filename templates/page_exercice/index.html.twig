@@ -1,0 +1,120 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PageExerciceController!{% endblock %}
+
+{% block body %}
+
+
+    <form action="{{ path('app_page_exercice') }}" method="post">
+        <div class="form-group">
+            <label for="languageCategory">Catégories de langue </label>
+            <select class="form-control" id="languageCategory" name="languageCategory" style=" display: inline-block; width: auto">
+                <option value="">Toutes les langues</option>
+                {% for languageCategory in languageCategories %}
+                    <option value="{{ languageCategory.id }}" {% if languageCategory.id == app.request.request.get('languageCategory') %}selected{% endif %}>{{ languageCategory.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="thematiqueCategory">Catégories de thématique</label>
+            <select class="form-control" id="thematiqueCategory" name="thematiqueCategory" style=" display: inline-block; width: auto">
+                <option value="">Toutes les thématiques</option>
+                {% for thematiqueCategory in thematiqueCategories %}
+                    <option value="{{ thematiqueCategory.id }}" {% if thematiqueCategory.id == app.request.request.get('thematiqueCategory') %}selected{% endif %}>{{ thematiqueCategory.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Filtrer</button>
+    </form>
+
+    <div class="container" style="margin-top: 30px;">
+        <div class="row">
+            {% if exercices is not empty %}
+                {% for exercice in exercices %}
+                    <div class="col-sm-6 col-md-4">
+                        <div class="card">
+                            <h5 class="card-header">
+                                {% for thematiqueCategory in exercice.thematiqueCategories %}
+                                    {{ thematiqueCategory.name }}
+                                {% endfor %}
+                            </h5>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ exercice.title }}</h5>
+                                <p class="card-text">{{ exercice.enonce | raw }}</p>
+                                <p class="card-text">Langages :
+                                    {% for languageCategory in exercice.languageCategories %}
+                                        {{ languageCategory.name }}
+                                    {% endfor %}
+                                </p>
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="{{ path('app_exercice_show', {'id': exercice.id}) }}"  class="btn btn-primary">Voir l'exercice</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-sm-12">
+                    <p>Aucun exercice trouvé.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+{#
+    <form action="{{ path('app_page_exercice') }}" method="post">
+        <div class="form-group">
+            <label for="languageCategory">Catégories de langue </label>
+            <select class="form-control" id="languageCategory" name="languageCategory" style=" display: inline-block; width: auto">
+
+                {% for languageCategory in languageCategories %}
+                    <option value="{{ languageCategory.id }}">{{ languageCategory.name }}</option>
+                {% endfor %}
+
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="thematiqueCategory">Catégories de thématique</label>
+            <select class="form-control" id="thematiqueCategory" name="thematiqueCategory" style=" display: inline-block; width: auto">
+
+                {% for thematiqueCategory in thematiqueCategories %}
+                    <option value="{{ thematiqueCategory.id }}">{{ thematiqueCategory.name }}</option>
+                {% endfor %}
+
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Filtrer</button>
+    </form>
+
+
+
+
+    <div class="container" style="margin-top: 30px;">
+        <div class="row">
+            {% for exercice in exercices %}
+                <div class="col-sm-6 col-md-4">
+                    <div class="card">
+                        <h5 class="card-header">
+                            {% for thematiqueCategory in exercice.thematiqueCategories %}
+                                {{ thematiqueCategory.name }}
+                            {% endfor %}
+                        </h5>
+                        <div class="card-body">
+                            <h5 class="card-title">{{ exercice.title }}</h5>
+                            <p class="card-text">{{ exercice.enonce | raw }}</p>
+                            <p class="card-text">Langages :
+                                {% for languageCategory in exercice.languageCategories %}
+                                    {{ languageCategory.name }}
+                                {% endfor %}
+                            </p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a href="#" class="btn btn-primary">Voir l'exercice</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+#}
+{% endblock %}

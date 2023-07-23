@@ -1,0 +1,35 @@
+{% if app.request.attributes.get('_route') != 'app_register' and app.request.attributes.get('_route') != 'app_login' %}
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{{ path('app_home') }}">Home</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                {% if app.request.attributes.get('_route') != 'app_profile' %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ path('app_profile') }}">Profile <span class="sr-only">(current)</span></a>
+                    </li>
+                {% endif %}
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ path('admin') }}">Administration</a>
+                    </li>
+                {% endif %}
+                {% if app.request.attributes.get('_route') != 'app_page_exercice' %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ path('app_page_exercice') }}">Exercices</a>
+                    </li>
+                {% endif %}
+                {% if app.user %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
+                    </li>
+                {% endif %}
+
+            </ul>
+        </div>
+    </nav>
+
+{% endif %}

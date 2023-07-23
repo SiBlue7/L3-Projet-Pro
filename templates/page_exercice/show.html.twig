@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ exercice.title }}{% endblock %}
+
+{% block body %}
+
+    <div class="editor">
+        <div class="editor-container">
+            <div class="editor-body">
+                <div class="editor-body-left">
+                    <div class="titre-exercice">
+                        <h1 class="titre-exercice-font">{{ exercice.title }}</h1>
+                    </div>
+                    <div class="enonce-exercice">
+                        <p>{{ exercice.enonce | raw}}</p>
+                    </div>
+                    <div class="selector-editor">
+                        <div class="selector-mode-exercice">
+                            <select title="mode-ace-editor" name="mode-ace-editor" id="-mode">
+                                <option value="ace/mode/javascript">Javascript</option>
+                                <option value="ace/mode/python">Python</option>
+                                <option value="ace/mode/haskell">Haskell</option>
+                            </select>
+                        </div>
+                        <div class="selector-theme-exercice">
+                            <select title="theme-ace-editor" name="theme-ace-editor" id="-theme">
+                                <optgroup label="Bright">
+                                    <option value="ace/theme/chrome">Chrome</option>
+                                    <option value="ace/theme/dreamweaver">Dreamweaver</option>
+                                </optgroup>
+                                <optgroup label="Dark">
+                                    <option value="ace/theme/ambiance">Ambiance</option>
+                                    <option value="ace/theme/dracula">Dracula</option>
+                                </optgroup>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="historique-exo">
+                        <form method="post" action="{{ path('app_exercice_show', {'id': exercice.id}) }}">
+                            <div class="historique-exo-left">
+                                <label for="nom-save">Nom :</label>
+                                <input type="text" name="nom-save" id="nom-save" size="auto">
+                            </div>
+                            {% if lastHistorique %}
+                                <textarea name="RecupCode" id="RecupCode" cols="30" rows="10" hidden></textarea>
+                                <textarea name="latestHistoriqueCode" id="latestHistoriqueCode" cols="30" rows="10" hidden>{{ lastHistorique.code }}</textarea>
+                            {% endif %}
+                            <select name="historique-select" id="-save">
+                                {% for historique in historiques %}
+                                    <option value="{{ historique.code }}">{{ historique.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="historique-exo-right">
+                            </div>
+                            <button type="submit" name="envoi-code" class="editor__btn editor__save" >Save ></button>
+                        </form>
+                    </div>
+
+                </div>
+                <div class="editor-body-right">
+                    <div id="editorCode" class="editor-code"></div>
+                </div>
+            </div>
+            <div class="editor-footer">
+                <div class="editor-footer-left">
+                    <button class="editor__btn editor__run">Run ></button>
+                    <button class="editor__btn editor__reset">Reset ></button>
+                </div>
+                <div class="editor-footer-right">
+                    <div class="editor-console">
+                        <ul class="editor-console-logs"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
